@@ -39,5 +39,6 @@ $app = (new App([
 
  $pdo = Connection::getPDO();
 
- 
- Helpers::setUri("paginate", "1");
+ $query = new categoryTable($pdo);
+
+ var_dump($query->delete("2"));
