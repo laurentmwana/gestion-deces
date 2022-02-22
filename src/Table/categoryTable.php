@@ -3,10 +3,11 @@
 
 namespace App\Table;
 
-use App\Entity\Category;
+use App\Models\Category;
+use App\Pagination;
 use App\Request;
 
-class categoryTable extends Table {
+class CategoryTable extends Table {
 
     /**
      * Nom de la table 
@@ -14,7 +15,11 @@ class categoryTable extends Table {
      * @var string
      */
     private $table = "category";
-    
+
+    public function __construct()
+    {
+        parent::__construct(Connection::getPDO());
+    }
     /**
      * Récupère une ligne d'informations 
      *
@@ -23,35 +28,29 @@ class categoryTable extends Table {
      */
     public function find (int $key): array {
         return $this->getQuery()
-        ->from($this->table)->where("id = 1")->select();
+        ->from($this->table)->where("id = :id")
+        ->params([":id" => $key])->exec(Category::class);
     }
     
     /**
+     * Les categories 
      *
-     * @param string $key
-     * @return boolean
+     * @return Category
      */
-    public function delete (string $key): bool {
+    public function categorie () {
         return $this->getQuery()
         ->from($this->table)
-        ->where("id = :id")->params([
-            ":id" => $key
-        ])
-        ->delete();
+        ->exec(Category::class);
     }
 
-    /**
-     *
-     * @param Request $request
-     * @return boolean
-     */
-    public function insert (Request $request): bool {
-        return $this->getQuery()
-        ->from($this->table)
-        ->where("id = :id")->params([
-            ":id" => ""
-        ])
-        ->insert();
+    public function findPaginated ($perPage = 12): Pagination {
+
+        return new Pagination(
+            $this->getQuery()->from($this->table),
+            ($this->getQuery()->from($this->table)->count("id")->exec())[0],
+            Category::class,
+            $perPage
+        );
     }
 
 }

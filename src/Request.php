@@ -50,6 +50,16 @@ class Request {
      */
     public function empty (string $key): bool {
         return isset($this->request[$key]);
+    }   
+
+    /**
+     * Une valeur 
+     *
+     * @param string $key
+     * @return string
+     */
+    public function getValue (string $key): string {
+        return isset($this->request[$key]);
     }
 
 

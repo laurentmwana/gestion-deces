@@ -1,13 +1,9 @@
 <?php
 
 use App\App;
-use App\Helpers;
 use App\Renderer;
-use App\Table\categoryTable;
-use App\Table\Connection;
-use App\Table\QueryBuilder;
-use App\Table\Table;
-use Modules\Blog\BlogModule;
+use Modules\BlogModule;
+use Modules\CategorieModule;
 
 require dirname(__DIR__) . "/src/Autoloader.php";
 (new loading\Autoloader([
@@ -19,6 +15,7 @@ require dirname(__DIR__) . "/src/Autoloader.php";
 
 define("VIEWS", dirname(__DIR__) . DIRECTORY_SEPARATOR . "views" . DIRECTORY_SEPARATOR);
 define("SOURCES", dirname($_SERVER['SCRIPT_NAME']) . DIRECTORY_SEPARATOR . "sources" . DIRECTORY_SEPARATOR);
+
 /**
  * Permet de charger les chemins dans les liens de css, script
  *
@@ -31,14 +28,9 @@ function sources (string $source): string {
 
 $renderer = new Renderer(VIEWS);
 $app = (new App([
-    BlogModule::class
+    BlogModule::class,
+    CategorieModule::class
  
  ], [
      "renderer" => $renderer
  ]))->run();
-
- $pdo = Connection::getPDO();
-
- $query = new categoryTable($pdo);
-
- var_dump($query->delete("2"));

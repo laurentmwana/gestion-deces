@@ -78,12 +78,12 @@ class Route {
     /**
      *
      * @param array $params
-     * @return void
+     * @return string
      */
     public function getParams (array $params) {
         $path = $this->path;
         foreach ($params as $k => $v) {
-            $path = str_replace(":$k", $v, $this->path);
+            $path = str_replace(":$k", $v, $path);
         }
         return $path;
     }

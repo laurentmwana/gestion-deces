@@ -58,6 +58,12 @@ class URI {
         return (int)$_GET[$name];
     }
 
+
+    static function getUri (string $key,  $value): string {
+        return "?" . $key . "=" . $value;
+    }
+
+
     /**
      * Permet de définir un paramètre dans l'url
      *

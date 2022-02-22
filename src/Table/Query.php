@@ -2,7 +2,7 @@
 
 namespace App\Table;
 
-use App\Table\Connection;
+use DateTime;
 use PDO;
 
 class Query {
@@ -113,6 +113,20 @@ class Query {
      */
     private $values = [];
 
+    /**
+     * Permet de définir la date et l'heure (maintenant = now)
+     *
+     * @var Datetime
+     */
+    private $datetime;
+
+    /**
+     * classe de recuperation
+     *
+     * @var string
+     */
+    private $classMapping;
+
 
    /**
      *
@@ -145,8 +159,19 @@ class Query {
      * @return self
      */
     public function values (string ...$values): self {
-        $this->values = array_merge($values);
+        $this->values = array_merge($this->values, $values);
+        return $this;
+    }
 
+
+    /**
+     * Définit la date et l'heure du jour 
+     *
+     * @param string $datetime
+     * @return self
+     */
+    public function datetime (string $datetime = "NOW()"): self {
+        $this->datetime =  $datetime;
         return $this;
     }
     
@@ -237,85 +262,129 @@ class Query {
      * Execute les requetes 
      *
      * @param string $query
-     * @param mixed $table
      * @return mixed
      */
-    public function exec (string $query, $table = null) {
-      
-        if (!empty($this->params) && !empty($this->where) && !empty($this->fields)) {
-            
-            $data = $this->pdo->prepare($query);
-            $data->execute($this->params);
-            return $data->fetchAll();
-        } elseif (!empty($this->params) && !empty($this->where) && empty($this->fields)) {
-          
-            return $this->pdo->prepare($query)->execute($this->params);
+    public function exec ($table = null) {
+
+        $query = $this->__toString();
+
+        if (!empty($this->params) && !empty($this->where) && !is_null($table)) {
+            $req = $this->pdo->prepare($query);
+            $req->execute($this->params);
+            return $req->fetchAll(PDO::FETCH_CLASS, $table);
+           
         } else {
-            return $this->pdo->query($query)->fetchAll();
+            if (!is_null($this->count)) {
+                return $this->pdo->query($query)->fetchAll(PDO::FETCH_NUM)[0];
+            }
+            return $this->pdo->query($query)->fetchAll(PDO::FETCH_CLASS, $table);
         }
+    }
+
+   
+
+
+
+       /**
+     * Le nom de la table 
+     *
+     * @param string $table
+     * @param string $alias
+     * @return self
+     */
+    public function from (string $table, ?string $alias = null): self {
+        $this->from = $table;
+        if ($alias) {
+            $this->from = $table . " as " . $alias;
+        }
+        return $this;
+    }
+
+    /**
+     * La requete avec la condition where
+     *
+     * @param string ...$where
+     * @return self
+     */
+    public function where (string ...$where): self {
+        $this->where = array_merge($this->where, $where);
+        return $this;
+    }
+
+    /**
+     * Les valeurs 
+     *
+     * @param array $params
+     * @return self
+     */
+    public function params (array $params): self {
+        $this->params = $params;
+        return $this;
+    }
+
+    /**
+     * formate les champs normal en champs nommé
+     *
+     * @param array $fields
+     * @return string
+     */
+    public function formate (array $fields, $separator = false): string {
+        $field = [];
+        if ($separator) {
+            foreach ($fields as $key) {
+                $field[] = " $key = :$key ";
+            }
+        } else {
+            foreach ($fields as $key) {
+                $field[] = ":$key";
+            }
+        }
+     
+        return implode(", ", $field);
     }
 
     
- 
-
-
     /**
-     * Permet de supprimer une information depuis la base de données 
+     * Fait la requete select * from ...
      *
-     * @return boolean
-     */ 
-    public function delete (): bool {
-        $query = ["DELETE"];
-        if (!empty($this->from)) {
-            $query[] = "FROM";
-            $query[] = $this->from;
-        }
-
-        if (!empty($this->where)) {
-           $query[] = $this->getWhere($this->where);
-        }
-
-        $queries = $this->exec(implode(" ", $query));
-        return $queries ? true : false;
+     * @param string[] ...$fields
+     * @return self
+     */
+    public function fields (string ...$fields): self {
+        $this->fields = array_merge($this->fields, $fields);
+        return $this;
     }
 
     /**
-     * Permet de modifier une information depuis la base de données 
-     * @return bool
+     * get where
+     *
+     * @param array $where
+     * @return string
      */
-    public function update (): bool {
-        $query = ['UPDATE'];
-        if (!empty($this->from)) {
-           $query[] = $this->from;
-        }
-
-        if (!empty($this->fields)) {
-           $query[] = $this->formate($this->fields);
-        }
-
-        if (!empty($this->where)) {
-            $query[] = $this->getWhere($this->where);
-        }
-
-        $queries = $this->exec(implode(" ", $query));
-        return $queries ? true : false;
+    private function getWhere (array $where): string {
+        // where
+        $query = ["WHERE"];
+        $query[] = "(" . implode(") AND (", $where) . ")";
+        return implode(" ", $query);
     }
 
-
     /**
+     * Convertit un tableau en string 
      *
-     * @param mixed $classMapping
-     * @return mixed
+     * @return string
      */
-    public function select ($classMapping = null) {
+    public function __toString(): string
+    {
         $query = ['SELECT'];
     
         if (!empty($this->fields)) {
            $query[] = implode(", ", $this->fields);
-        }  elseif (!empty($this->count)) {
-           $query[] = "COUNT(" . $this->count . ")";
-        } else {
-            $query[] = "*";
+        }   else {
+            if ($this->count) {
+                $query[] = "COUNT(" . $this->count . ")";
+            } else {
+                $query[] = "*";
+            }
         }
 
 
@@ -369,108 +438,6 @@ class Query {
             $query[] = $this->offset;
         }
 
-
-        $queries = implode(" ", $query);
-
-        return $this->exec($queries, $classMapping);
-    }
-
-    /**
-     * Ajouter une information dans la base de données 
-     * @return bool
-     */
-    public function insert (): bool {
-        $query = ["INSERT INTO"];
-        if (!empty($this->from)) {
-            $query[] = $this->from;
-        }
-
-        if (!empty($this->fields)) {
-            $query[] = "(" . implode(", ", $this->fields) . " )";
-        }
-
-        if (!empty($this->values)) {
-            $query[] = "(" . $this->formate($this->values) . " )";
-        }
-        
-        $queries = $this->exec(implode(" ", $query));
-
-        return $queries ? true : false;
-    }
-
-       /**
-     * Le nom de la table 
-     *
-     * @param string $table
-     * @param string $alias
-     * @return self
-     */
-    public function from (string $table, ?string $alias = null): self {
-        $this->from = $table;
-        if ($alias) {
-            $this->from = $table . " as " . $alias;
-        }
-        return $this;
-    }
-
-    /**
-     * La requete avec la condition where
-     *
-     * @param string ...$where
-     * @return self
-     */
-    public function where (string ...$where): self {
-        $this->where = array_merge($this->where, $where);
-        return $this;
-    }
-
-    /**
-     * Les valeurs 
-     *
-     * @param array $params
-     * @return self
-     */
-    public function params (array $params): self {
-        $this->params = $params;
-        return $this;
-    }
-
-    /**
-     * formate les champs normal en champs nommé
-     *
-     * @param array $fields
-     * @return string
-     */
-    public function formate (array $fields): string {
-        $field = [];
-        foreach ($fields as $key) {
-            $field[] = [" $key = :$key"];
-        }
-        return implode(", ", $field);
-    }
-
-    
-    /**
-     * Fait la requete select * from ...
-     *
-     * @param string[] ...$fields
-     * @return self
-     */
-    public function fields (string ...$fields): self {
-        $this->fields = array_merge($this->fields, $fields);
-        return $this;
-    }
-
-    /**
-     * get where
-     *
-     * @param array $where
-     * @return string
-     */
-    private function getWhere (array $where): string {
-        // where
-        $query = ["WHERE"];
-        $query[] = "(" . implode(") AND (", $where) . ")";
         return implode(" ", $query);
     }
 }

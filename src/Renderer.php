@@ -35,11 +35,11 @@ class Renderer {
      * Charger le fichier dans le bon chemin
      *
      * @param string $path
-     * @param string $layout
      * @param array $params
+     * @param string $layout
      * @return void
      */
-    public function render (string $path, string $layout = "layout.layout", array $params = []): void {
+    public function render (string $path, array $params = [], string $layout = "layout.layout"): void {
         $require = $this->path . $this->replace(".", DIRECTORY_SEPARATOR, $path);
         ob_start();
         extract($this->global);

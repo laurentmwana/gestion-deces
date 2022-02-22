@@ -7,6 +7,20 @@ use PDO;
 
 class Connection {
 
+    private static $host = "127.0.0.1";
+
+    private static $dbname = "deces";
+
+    private static $pass = "";
+
+    private static $username = "root";
+
+    private static $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_CLASS,
+        PDO::MYSQL_ATTR_INIT_COMMAND => "SET CHARACTER SET UTF8"
+    ];
+
     static $pdo;
 
     /**
@@ -18,8 +32,8 @@ class Connection {
 
         if (!self::$pdo) {
             self::$pdo = new PDO(
-                "mysql:host=" . Container::get("database.host") . ";dbname=" . Container::get("database.dbname"),
-                Container::get("database.user"), Container::get("database.pass"), Container::get("database.option")
+                "mysql:host=" . self::$host . ";dbname=" . self::$dbname,
+                self::$username, self::$pass, self::$options
             );
         }
 
