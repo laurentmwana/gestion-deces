@@ -5,7 +5,6 @@ namespace App\Table;
 
 use App\Models\Category;
 use App\Pagination;
-use App\Request;
 
 class CategoryTable extends Table {
 
@@ -14,41 +13,21 @@ class CategoryTable extends Table {
      *
      * @var string
      */
-    private $table = "category";
+    protected $table = "category";
 
-    public function __construct()
-    {
-        parent::__construct(Connection::getPDO());
-    }
     /**
-     * Récupère une ligne d'informations 
      *
-     * @param integer $key
-     * @return Category
+     * @var \App\Models\Category
      */
-    public function find (int $key): array {
-        return $this->getQuery()
-        ->from($this->table)->where("id = :id")
-        ->params([":id" => $key])->exec(Category::class);
-    }
-    
-    /**
-     * Les categories 
-     *
-     * @return Category
-     */
-    public function categorie () {
-        return $this->getQuery()
-        ->from($this->table)
-        ->exec(Category::class);
-    }
+    protected $class = Category::class;
 
-    public function findPaginated ($perPage = 12): Pagination {
-
+    public function findPaginatedCategory (int $perPage = 12): Pagination {
         return new Pagination(
-            $this->getQuery()->from($this->table),
-            ($this->getQuery()->from($this->table)->count("id")->exec())[0],
-            Category::class,
+            $this->getQuery()
+            ->by('createdate', "DESC")
+            ->from($this->table),
+           $this->count("id"),
+            $this->class,
             $perPage
         );
     }

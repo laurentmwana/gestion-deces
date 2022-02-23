@@ -42,6 +42,7 @@ class Renderer {
     public function render (string $path, array $params = [], string $layout = "layout.layout"): void {
         $require = $this->path . $this->replace(".", DIRECTORY_SEPARATOR, $path);
         ob_start();
+        http_response_code(200);
         extract($this->global);
         extract($params);
         require ($require);

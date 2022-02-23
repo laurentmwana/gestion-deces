@@ -14,8 +14,16 @@ class Category {
 
     private string $categorie;
 
-    
-    public function getId (): int {
+    private string $createdate;
+
+    private string $updatedate;
+
+    /**
+     * l'id
+     *
+     * @return integer|null
+     */
+    public function getId (): ?int {
         return $this->id;
     }
 
@@ -23,8 +31,11 @@ class Category {
         $this->id = $id;
     }
 
-
-    public function getContent (): string {
+    /**
+     *
+     * @return string|null
+     */
+    public function getContent (): ?string {
         return $this->content;
     }
 
@@ -49,11 +60,19 @@ class Category {
         $this->type = $type;
     }
 
-    public function getCreateDate(): ?string {
-        return $this->createdate;
+    public function getCreateDate(): ?DateTime {
+        if ($this->createdate) {
+            return new datetime($this->createdate);
+        }
+
+        return null;
     }
 
-    public function getUpdateDate (): ?string {
-        return $this->updatedate;
+    public function getUpdateDate (): ?DateTime {
+        if ($this->createdate) {
+            return new datetime($this->updatedate);
+        }
+
+        return null;
     }
 }

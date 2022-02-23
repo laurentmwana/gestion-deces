@@ -2,7 +2,6 @@
 
 namespace App\Routes;
 
-use Exceptions\RouteException;
 
 class Router {
 
@@ -67,10 +66,12 @@ class Router {
 
         foreach ($this->routes[$_SERVER['REQUEST_METHOD']] as $route) {
             if ($route->matches($this->url)) {
+                http_response_code(202);
                 return $route->require();
             }
         }
 
+        http_response_code(404);
         throw new RouteException("$this->url est introuvable");
     }
 

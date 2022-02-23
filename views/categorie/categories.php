@@ -1,16 +1,21 @@
 <?php
 
 use App\Table\CategoryTable;
+use App\Table\Connection;
 use App\Text;
 
-$category = new CategoryTable();
-$paginate = $category->findPaginated(3);
+$title = "categories";
+
+$category = new CategoryTable(Connection::getPDO());
+$paginate = $category->findPaginatedCategory(12);
+
+
 
 ?>
 
 <h1 class="text-dark"> Categories</h1>
 
-<div class="grid-row grid-col-3">
+<div class="grid-row grid-col-3 gap-column-20">
 
     <?php foreach($paginate->getData() as $categorie): ?>
     <div class="cards-small">
@@ -21,7 +26,7 @@ $paginate = $category->findPaginated(3);
             <div class="card-title"><?= $categorie->getCategorie()  ?></div>
             <div class="card-stat">1500000000 morts</div>
             <div class="card-desc"><?=  Text::excerpt($categorie->getContent(), 200) ?> </div>
-            <div class="card-date"> créer le <?= $categorie->getCreateDate() ?> </div>
+            <div class="card-date"> créer le <?= $categorie->getCreateDate()->format("d/m/Y à H:m:s") ?> </div>
         </a>
     </div>
     <?php endforeach ?>

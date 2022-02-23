@@ -1,3 +1,7 @@
+<?php
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -6,18 +10,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?= sources("css/app.css")  ?>">
     <link rel="stylesheet" href="<?= sources("fontawesome/css/all.css")  ?>">
-    <title>Gestion de décès</title>
+    <link rel="shortcut icon" href="<?= sources("img/favicon.png")  ?>" type="image/x-icon">
+    <title>Gestion de décès <?= isset($title) ? "| $title" : "" ?> </title>
 </head>
 <body>
-
     <!-- blog en tête -->
     <div class="header" e-fixed="header">
        
         <!-- logo du site  -->
-        <div class="logo ">
-            <div class="title">
+        <div class="logo">
+            <a class="title" href="<?= $route->generateUri("default.home") ?>">
                 Décè<span class="su-red f-licorice">s</span> 
-            </div>
+            </a>
            
              <!-- bars icon pour les mobiles -->
             <div class="bars" toggle-header>
@@ -29,8 +33,9 @@
         <div class="navbar toggle-h"  data-navbar-toggle>
             <!-- menu du centre -->
             <ul class="items">
-                <li class="item"><a href="<?= $route->generateUri("blog.home") ?>" class="link">Accueil</a></li>
-                <li class="item"><a href="<?= $route->generateUri("categorie") ?>" class="link">Categories</a></li>
+                <?= item($route->generateUri("default.home"), "Accueil")  ?>
+                <?= item($route->generateUri("blog.home"), "Blog")  ?>
+                <?= item($route->generateUri("categorie"), "Categories")  ?>
             </ul>
 
         </div>

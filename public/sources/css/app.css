@@ -31,6 +31,7 @@
     --p100: 100%;
     --p50: 50%;
     --p10: 10%;
+    --p8: 8%;
     --p5: 5%;
     --p2: 2%;
     --re80: .80rem;
@@ -100,19 +101,16 @@ body {
 }
 
 .header .logo {
-    font-size: var(--rem2);
-    font-family: var(--confortaa);
-    color: var(--light);
+    display: block;
+    text-decoration: none;
 }
 
 .title {
-
-    animation-duration: 10s;
-    animation-name: opacity;
-    animation-fill-mode: both;
-    animation-delay: .1s;
-    animation-timing-function: ease-in;
-    animation-iteration-count: infinite;
+    display: block;
+    font-size: var(--rem2);
+    font-family: var(--confortaa);
+    color: var(--light);
+    text-decoration: none;
 }
 
 .header .logo .title::first-letter {
@@ -177,7 +175,7 @@ body {
     width: var(--p100);
     height: auto;
     background: rgba(255, 255, 255, 0.164);
-    padding: var(--p2) var(--p10);
+    padding: var(--p2) var(--p8);
 }
 
 .container .h-content,
@@ -266,6 +264,7 @@ body {
     padding: var(--re80);
     font-size: var(--remv1);
     line-height: 1.6;
+    text-align: justify;
 }
 
 .text-italic {
@@ -328,18 +327,15 @@ h5 {
 }
 
 .grid-col-10 {
-    grid-template-columns: repeat(10, var(--fr3v3)) ;
-    grid-column-gap: var(--rem);
+    grid-template-columns: repeat(10, var(--fr3v3));
 }
 
 .grid-col-2 {
     grid-template-columns: repeat(2, var(--fr5)) ;
-    grid-column-gap: var(--rem);
 }
 
 .grid-col-3 {
     grid-template-columns: repeat(3, var(--fr3v3));
-    grid-column-gap: var(--rem2v2);
 }
 
 .grid-col-4 {
@@ -349,6 +345,7 @@ h5 {
 
 
 .grid-items-center {
+    justify-content: center;
     justify-items: center;
     align-items: center;
 }
@@ -359,23 +356,19 @@ h5 {
 }
 
 .gap-column-10 {
-    grid-column-gap: 10px;
+    grid-column-gap: var(--rem);
 }
 
 .gap-column-20 {
-    grid-column-gap: 40px;
+    grid-column-gap: var(--rem2);
 }
 
 .gap-row-10 {
-    grid-row-gap: 10px;
+    grid-row-gap: var(--rem);
 }
 
 .gap-row-20 {
-    grid-row-gap: 20px;
-}
-
-.gap-row-20 {
-    grid-row-gap: 40px;
+    grid-row-gap: var(--rem2v2);
 }
 
 /* flash */
@@ -502,18 +495,16 @@ h5 {
 .cards-small,
 .cards  {
     display: block;
-    width: var(--p100);
     background: var(--light);
     box-shadow: 0 0 10px  var(--shadow-dark);
     border-radius: var(--rem);
-    
     transition: all 1s ease-in;
 }
 
 .cards-small {
     height: 250px;
+    width: var(--p100);
     padding: var(--rem);
-    
 }
 
 .cards-small .card-title {
@@ -526,6 +517,7 @@ h5 {
 
 .cards {
     height: 350px;
+    width: 340px;
     transition: transform 1s;
 }
 
@@ -544,23 +536,38 @@ h5 {
 
 .cards .card-image {
     width: var(--p100);
-    margin-bottom: var(--re90);
-    height: 70%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+    margin-bottom: 5px;
+    height: 60%;
+    width: 100%;
+   
 }
 
 .cards .card-image img {
-    width: var(--p100);
     display: block;
-    height: var(--p100);
+    height: 90%;
+    width: 55%;
+    background: transparent !important;
+    border-radius: 50%;
+    border: 8px solid #f2f4f2;
+    box-shadow: 0 0 10px  var(--shadow-dark);
+    margin: 0 auto;
+}
+
+.cards .card-image img::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: -200px;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    background: #000;
 }
 
 .cards .card-date,
 .cards .card-title {
     text-align: center;
-    margin-bottom: var(--re80);
+    margin-bottom: var(--re60);
 }
 .cards .card-title {
     color: inherit;
@@ -574,6 +581,13 @@ h5 {
     font-size: var(--re80);
     font-family: var(--confortaa);
     font-style: italic;
+}
+
+.cards .card-age {
+    font-size: var(--remv1);
+    color: var(--dark);
+    font-weight:var(--f-weight700);
+    font-family: var(--oxygen);
 }
 
 .cards-small .card-stat {
@@ -664,33 +678,7 @@ input:focus ~ label {
 
 /* animations */
 
-@keyframes opacity {
-    10% {
-        opacity: .25;
-    }
 
-    50% {
-        opacity: .45;
-    }
-
-    100% {
-        opacity: 1;
-    }
-}
-
-/* 
-@keyframes loader {
-    from {
-        padding: 10px;
-        transform: rotate(0);
-    }
-
-    to {
-        padding: 15px;
-        transform: rotate(360deg);
-    }
-
-} */
 
 @keyframes hide-flash {
     0% {
@@ -748,6 +736,7 @@ input:focus ~ label {
         opacity: .50;
         transition: opacity .15s;
         cursor: pointer;
+        font-size: var(--rem2v3);
     }
 
 
@@ -781,9 +770,13 @@ input:focus ~ label {
 /* end 820px */
 
 
-@media screen and (max-width:1400px) {
+@media screen and (max-width:1580px) {
     .grid-col-2 {
         grid-template-columns: var(--fr10);
+    }
+
+    .grid-col-3 {
+        grid-template-columns: repeat(2, var(--fr5));
     }
 }
 

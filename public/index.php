@@ -1,6 +1,7 @@
 <?php
 
 use App\App;
+use Modules\DefaultModule;
 use App\Renderer;
 use Modules\BlogModule;
 use Modules\CategorieModule;
@@ -26,10 +27,24 @@ function sources (string $source): string {
     return SOURCES . $source; 
 }
 
+
+function item (string $url, string $key = "key"): string {
+    if ($url === str_replace("/", DIRECTORY_SEPARATOR ,$_SERVER['REQUEST_URI'])) {
+        return <<<HTML
+        <li class="item active"><a href="{$url}" class="link">{$key}</a></li>
+HTML;
+    }
+
+    return <<<HTML
+            <li class="item"><a href="{$url}" class="link">{$key}</a></li>
+HTML;
+}
+
 $renderer = new Renderer(VIEWS);
 $app = (new App([
-    BlogModule::class,
-    CategorieModule::class
+    DefaultModule::class,
+    CategorieModule::class,
+    BlogModule::class
  
  ], [
      "renderer" => $renderer

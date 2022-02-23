@@ -5,23 +5,7 @@ namespace Modules;
 use App\Renderer;
 use App\Routes\Router;
 
-class CategorieModule {
-
-
-    /**
-     * L'instance de route piur définir toute les routes
-     *
-     * @var Router
-     */
-    private $route;
-
-    /**
-     *
-     * Permet de rendre les vues
-     * 
-     * @var Renderer
-     */
-    private Renderer $renderer;
+class CategorieModule extends Module {
 
 
     /**
@@ -31,13 +15,11 @@ class CategorieModule {
      */
     public function __construct(Router $route, Renderer $renderer)
     {
-        $this->route = $route;
-        $this->renderer = $renderer;
+        parent::__construct($route, $renderer);
 
         $this->route
         ->map("GET", "/categorie/show/:categorie/:id", [$this, "show"], "categorie.show")
         ->map("GET", "/categories", [$this, "category"], "categorie");
-
 
     }
 

@@ -56,7 +56,7 @@ class Pagination {
      *
      * @param Query $query
      * @param integer $count
-     * @param string $classMapping
+     * @param mixed $classMapping
      * @param integer $perPage
      * @param integer $limited
      * @param integer $intervall
@@ -64,7 +64,7 @@ class Pagination {
     public function __construct(
         Query $query, 
         int $count, 
-        string $classMapping, 
+        $classMapping, 
         int $perPage = 12, 
         int $limited = 2, 
         int $intervall = 10
@@ -103,7 +103,7 @@ class Pagination {
      * @return string|null
      */
     public function next (?string $html = null): ?string {
-        if ($this->currentPage > $this->getPages()) return null;
+        if ($this->currentPage >= $this->getPages()) return null;
         $link = URI::getUri("page", ($this->currentPage + 1)); 
         return <<< HTML
         <a href="{$link}" class="paginate" > &raquo  </a>
