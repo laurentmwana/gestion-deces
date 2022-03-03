@@ -6,7 +6,8 @@ use App\Table\PostsTable;
 $title = "blog";
 
 $posts = new PostsTable(Connection::getPDO());
-$pagine = $posts->findPaginatedPost();
+$pagine = $posts->findPaginatedPost(6);
+
 
 ?>
 
@@ -17,25 +18,17 @@ $pagine = $posts->findPaginatedPost();
         <a href="" class="card-link">
             <div class="card-image"><img src="<?= sources("img/post.jpg") ?>" alt="" srcset=""> </div>
             <div class="card-title"><?= $post->getName() . " "  . $post->getFirtsname()  ?></div>
-            <div class="card-date">déceder le 16 juin 1975 (suicide)</div>
-                <div class="card-age text-center"><?= 54 . " ans"  ?></div>
+            <div class="card-date">déceder le 16 juin 1975 ( <?=  ucfirst($post->getCause()) ?> )</div>
+            <div class="card-age text-center"><?= ((int)date("Y") - (int)$post->getHappy()->format("Y")) . " ans"  ?></div>
         </a>
     </div> 
     <?php endforeach ?>
     
 </div>
 <div class="pagination pagination-small">
-    <a class="paginate">
-        &laquo;
-    </a>
+    <?= $pagine->prev() ?>
     <nav class="paginate-items">
-        <a href="" class="item ">1</a>
-        <a href="" class="item">2</a>
-        <a href="" class="item">3</a>
-        <a href="" class="item">4</a>
-        <a href="" class="item active">5</a>
+        <?= $pagine->paginates() ?>
     </nav>
-    <a class="paginate">
-            &raquo;
-    </a>
+    <?= $pagine->next() ?>
 </div>

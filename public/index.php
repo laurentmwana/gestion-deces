@@ -1,10 +1,11 @@
 <?php
 
 use App\App;
-use Modules\DefaultModule;
 use App\Renderer;
+use Modules\AdminModule;
 use Modules\BlogModule;
 use Modules\CategorieModule;
+use Modules\PostModule;
 
 require dirname(__DIR__) . "/src/Autoloader.php";
 (new loading\Autoloader([
@@ -17,6 +18,7 @@ require dirname(__DIR__) . "/src/Autoloader.php";
 define("VIEWS", dirname(__DIR__) . DIRECTORY_SEPARATOR . "views" . DIRECTORY_SEPARATOR);
 define("SOURCES", dirname($_SERVER['SCRIPT_NAME']) . DIRECTORY_SEPARATOR . "sources" . DIRECTORY_SEPARATOR);
 
+
 /**
  * Permet de charger les chemins dans les liens de css, script
  *
@@ -24,12 +26,17 @@ define("SOURCES", dirname($_SERVER['SCRIPT_NAME']) . DIRECTORY_SEPARATOR . "sour
  * @return string
  */
 function sources (string $source): string {
-    return SOURCES . $source; 
+    return SOURCES . $source;
 }
 
 
 function item (string $url, string $key = "key"): string {
-    if ($url === str_replace("/", DIRECTORY_SEPARATOR ,$_SERVER['REQUEST_URI'])) {
+
+    $uri = explode("?", $_SERVER['REQUEST_URI'])[0];
+    $url = str_replace("/", DIRECTORY_SEPARATOR, $url);
+    $match = str_replace("/", DIRECTORY_SEPARATOR, $uri);
+    
+    if ($url === $match) {
         return <<<HTML
         <li class="item active"><a href="{$url}" class="link">{$key}</a></li>
 HTML;
@@ -42,9 +49,10 @@ HTML;
 
 $renderer = new Renderer(VIEWS);
 $app = (new App([
-    DefaultModule::class,
     CategorieModule::class,
-    BlogModule::class
+    PostModule::class,
+    BlogModule::class,
+    AdminModule::class
  
  ], [
      "renderer" => $renderer

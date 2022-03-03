@@ -2,7 +2,11 @@
 
 namespace App\Models;
 
+use DateTime;
+
 class Posts {
+
+    private $id;
 
     private $name;
 
@@ -20,9 +24,15 @@ class Posts {
 
     private $profile;
 
+    private $cause;
+
     private $star;
 
     private $datehead;
+
+    public function getId (): int {
+        return $this->id;
+    }
 
     public function getName (): ?string {
         return $this->name;
@@ -40,11 +50,23 @@ class Posts {
         $this->name = $name;
     }
 
-    public function getHappy (): ?string {
+    public function getHappy (): ?DateTime {
+        if ($this->happy) {
+            return new DateTime($this->happy);
+        }
         return $this->name;
     }
 
     public function setHappy (string $happy): void {
         $this->happy = $happy;
+    }
+
+    
+    public function getCause (): ?string {
+        return $this->cause;
+    }
+
+    public function setCause ($cause): void {
+        $this->cause = $cause;
     }
 }

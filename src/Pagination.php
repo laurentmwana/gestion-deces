@@ -3,8 +3,8 @@
 
 namespace App;
 
+use App\Helpers\URI;
 use App\Table\Query;
-use App\URI;
 
 class Pagination {
 
@@ -77,6 +77,10 @@ class Pagination {
         $this->perPage = $perPage;
         $this->intervall = $intervall;
         $this->limited = $limited;
+
+        if ($this->currentPage > $this->getPages()) {
+            $this->currentPage = $this->getPages();
+        }
     }
     
     /**

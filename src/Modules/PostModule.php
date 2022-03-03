@@ -5,9 +5,9 @@ namespace Modules;
 use App\Renderer;
 use App\Routes\Router;
 
-class DefaultModule extends Module {
+class PostModule extends Module {
 
-    /**
+     /**
      *
      * @param Router $route
      * @param Renderer $renderer
@@ -15,10 +15,10 @@ class DefaultModule extends Module {
     public function __construct(Router $route, Renderer $renderer)
     {
         parent::__construct($route, $renderer);
-        $this->route->map("GET", "/", [$this, "home"], "default.home");
+        $this->route->map("GET", "/posts", [$this, "post"], "post.home");
     }
 
-    public function home () {
-        return $this->renderer->render("defaults.home");
+    public function post () {
+        return $this->renderer->render("post.post");
     }
 }

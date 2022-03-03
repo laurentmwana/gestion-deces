@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="<?= sources("css/app.css")  ?>">
     <link rel="stylesheet" href="<?= sources("fontawesome/css/all.css")  ?>">
     <link rel="shortcut icon" href="<?= sources("img/favicon.png")  ?>" type="image/x-icon">
-    <title>Gestion de décès <?= isset($title) ? "| $title" : "" ?> </title>
+    <title>Gestion de  <?= isset($title) ? "| $title" : "" ?> </title>
 </head>
 <body>
     <!-- blog en tête -->
@@ -33,9 +33,8 @@
         <div class="navbar toggle-h"  data-navbar-toggle>
             <!-- menu du centre -->
             <ul class="items">
-                <?= item($route->generateUri("home"), "Accueil")  ?>
-                <?= item($route->generateUri("post.home"), "Blog")  ?>
-                <?= item($route->generateUri("categorie"), "Categories")  ?>
+                <?= item($route->generateUri("admin.categories"), "Gestion des Categories")  ?>
+                <?= item($route->generateUri("admin.posts"), "Gestion des Articles")  ?>
             </ul>
 
         </div>
@@ -43,9 +42,8 @@
         <div class="navbar toggle-h" data-navbar-toggle>     
             <!-- menu destiner à l'administarteur -->
             <ul class="items">
-                <li class="item"><a href="admin.html" class="link"><i class="fa fa-eye"></i> admin</a></li>
-                <li class="item"><a href="" class="link">Déconnexion</a></li>
-                <li class="item"><a href="" class="link"><i class="fa fa-search"></i></a></li>
+                <li class="item">
+                <?= item($route->generateUri("home"), "<i class='fa fa-eye'></i> voir le site")  ?>
             </ul>
         </div>
 

@@ -11,14 +11,17 @@
         })  
     }
 
-    const flash = document.querySelector("[data-flash]");
+    document.querySelectorAll(".table.table-responsive").forEach(function (table) {
+        var labels = []
 
-    if (flash !== undefined && flash !== null) {
-        
-        setInterval(() => {
-            flash.classList.add("hide")
-        }, 5000)
-    }
+        table.querySelectorAll("th").forEach(function (th) {
+            labels.push(th.innerText)
+        })
 
+        table.querySelectorAll("td").forEach(function (td, i) {
+            td.setAttribute("data-label", labels[i % labels.length])
+        })
+
+    })
  
 })()

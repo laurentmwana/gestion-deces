@@ -1,8 +1,8 @@
 <?php
 
+use App\Helpers\Text;
 use App\Table\CategoryTable;
 use App\Table\Connection;
-use App\Text;
 
 $title = "categories";
 

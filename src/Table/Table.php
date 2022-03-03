@@ -65,4 +65,22 @@ class Table {
 
         return $find;
     }
+
+    
+    /**
+     *
+     * @param integer $id
+     * @return boolean|null
+     */
+    public function delete (int $id): ?bool {
+        $req = $this->pdo->prepare("DELETE FROM $this->table WHERE id = ?");
+        $delete = $req->execute([$id]);
+
+        if ($delete === false) {
+            throw new TableException("Impossible de supprimer cette informatio  ref table -> {$this->table}  id -> $id");
+        }
+
+        return $delete;
+
+    }
 }

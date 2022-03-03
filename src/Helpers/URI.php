@@ -1,9 +1,8 @@
 <?php
 
 
-namespace App;
+namespace App\Helpers;
 
-use App\Exceptions\Exceptions;
 
 class URI {
 
@@ -31,7 +30,7 @@ class URI {
         if (!isset($_GET[$name])) return $default;
 
         if (!filter_var($_GET[$name], FILTER_VALIDATE_INT)) {
-           throw new Exceptions("le paramètre {$name} n'est pas un entier");
+           throw new HelpersException("le paramètre {$name} n'est pas un entier");
         }
 
         return (int)$_GET[$name];
@@ -48,11 +47,11 @@ class URI {
         if (!isset($_GET[$name])) return $default;
 
         if (!filter_var($_GET[$name], FILTER_VALIDATE_INT)) {
-            throw new Exceptions("le paramètre {$name} n'est pas un entier");
+            throw new HelpersException("le paramètre {$name} n'est pas un entier");
         }
 
         if ((int)$_GET[$name] <= 0) {
-            throw new Exceptions("le paramètre {$name} n'est pas positive");
+            throw new HelpersException("le paramètre {$name} n'est pas positive");
         }
 
         return (int)$_GET[$name];

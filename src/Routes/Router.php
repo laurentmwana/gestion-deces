@@ -64,9 +64,13 @@ class Router {
      */
     public function run () {
 
+        if (!isset($this->routes[$_SERVER['REQUEST_METHOD']])) {
+            throw new RouteException("La methode utilisée n'existe pas");
+        }
+
         foreach ($this->routes[$_SERVER['REQUEST_METHOD']] as $route) {
             if ($route->matches($this->url)) {
-                http_response_code(202);
+                http_response_code(200);
                 return $route->require();
             }
         }
