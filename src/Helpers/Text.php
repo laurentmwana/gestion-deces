@@ -18,6 +18,15 @@ class Text {
         return mb_strlen($string) <= $limit ? 
         $string : substr($string, 0, $limit) . "...";
     }
+
+    /**
+     *
+     * @param string $value
+     * @return string
+     */
+    static function e (string $value): string {
+        return htmlspecialchars($value);
+    }
 }
 
 ?>

@@ -21,12 +21,17 @@ class CategoryTable extends Table {
      */
     protected $class = Category::class;
 
+    /**
+     *
+     * @param integer $perPage
+     * @return Pagination
+     */
     public function findPaginatedCategory (int $perPage = 12): Pagination {
         return new Pagination(
             $this->getQuery()
-            ->by('createdate', "DESC")
-            ->from($this->table),
-           $this->count("id"),
+            ->by('createdate', "DESC")->from($this->table),
+            (int)($this->getQuery()
+            ->from($this->table)->count("{$this->table}.id")->exec())[0],
             $this->class,
             $perPage
         );

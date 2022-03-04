@@ -19,6 +19,7 @@ class AdminModule extends Module {
         
         $this->route->map("GET", "/admin/categories", [$this, "categories"], "admin.categories");
         $this->route->map("GET|POST", "/admin/categories/delete/:id", [$this, "deleteCategorie"], "admin.categorie.delete");
+        $this->route->map("GET|POST", "/admin/categories/update/:id", [$this, "updateCategorie"], "admin.categorie.update");
 
 
         $this->route->map("GET", "/admin/posts", [$this, "posts"], "admin.posts");
@@ -30,6 +31,10 @@ class AdminModule extends Module {
 
     public function deleteCategorie (int $id) {
         return $this->renderer->render("admin.categories.delete", compact("id"));
+    }
+
+    public function updateCategorie (int $id) {
+        return $this->renderer->render("admin.categories.edit", compact("id"));
     }
 
 

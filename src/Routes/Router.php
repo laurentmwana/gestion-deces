@@ -86,7 +86,7 @@ class Router {
      * @param array $params
      * @return string
      */
-    public function generateUri (string $name, array $params = []): string {
+    public function url (string $name, array $params = []): string {
         if (!isset($this->nameRoute[$name])) {
             throw new RouteException(" c'est nom du routeur '$name' n'existe pas");
         }

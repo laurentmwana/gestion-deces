@@ -19,7 +19,7 @@
        
         <!-- logo du site  -->
         <div class="logo">
-            <a class="title" href="<?= $route->generateUri("home") ?>">
+            <a class="title" href="<?= $route->url("home") ?>">
                 Décè<span class="su-red f-licorice">s</span> 
             </a>
            
@@ -33,9 +33,9 @@
         <div class="navbar toggle-h"  data-navbar-toggle>
             <!-- menu du centre -->
             <ul class="items">
-                <?= item($route->generateUri("home"), "Accueil")  ?>
-                <?= item($route->generateUri("post.home"), "Blog")  ?>
-                <?= item($route->generateUri("categorie"), "Categories")  ?>
+                <?= item($route->url("home"), "Accueil")  ?>
+                <?= item($route->url("post.home"), "Blog")  ?>
+                <?= item($route->url("categorie"), "Categories")  ?>
             </ul>
 
         </div>
@@ -43,7 +43,7 @@
         <div class="navbar toggle-h" data-navbar-toggle>     
             <!-- menu destiner à l'administarteur -->
             <ul class="items">
-                <li class="item"><a href="admin.html" class="link"><i class="fa fa-eye"></i> admin</a></li>
+                <li class="item"><a href="<?= $route->url("admin.categories")  ?>" class="link"><i class="fa fa-user"></i> administration</a></li>
                 <li class="item"><a href="" class="link">Déconnexion</a></li>
                 <li class="item"><a href="" class="link"><i class="fa fa-search"></i></a></li>
             </ul>
@@ -52,68 +52,7 @@
  
     </div>
     <!-- end blog en tête -->
-
-    <!-- container -->
-    <div class="container">
         <?= $content ?>
-
-        <!-- <div class="grid-row grid-col-3">
-            <div class="cards">
-                <a href="" class="card-link">
-                    <div class="card-image" style="background-image:url(assets/image/post.jpg)">
-                        
-                    </div>
-                    <div class="card-title">Kabila Mutu</div>
-                    <div class="card-date">déceder le 16 juin 1975 (suicide)</div>
-
-                </a>
-            </div> 
-            <div class="cards">
-                <a href="" class="card-link">
-                    <div class="card-image" style="background-image:url(assets/image/post.jpg)">
-                        
-                    </div>
-                    <div class="card-title">Deby pala</div>
-                    <div class="card-date">déceder le 16 juin 1975 (suicide)</div>
-
-                </a>
-            </div>
-            <div class="cards">
-                <a href="" class="card-link">
-                    <div class="card-image" style="background-image:url(assets/image/post.jpg)">
-                        
-                    </div>
-                    <div class="card-title">Mvutu Sarah</div>
-                    <div class="card-date">déceder le 16 juin 1975 (suicide)</div>
-
-                </a>
-            </div>
-            
-        </div> -->
-
-        
-        
-    </div>
-    <!-- end container -->
-
-
-
-    <!-- loader page -->
-    <!-- <div class="loader" loader-dom>
-        <div class="loader-radius">
-            <div class="load"></div>
-            <div class="load"></div>
-        </div>
-        <div class="loader-radius">
-            <div class="load"></div>
-            <div class="load"></div>
-        </div>
-        <div class="loader-radius">
-            <div class="load"></div>
-            <div class="load"></div>
-        </div>
-    </div> -->
-    
 
     <script src="<?= sources("js/app.js") ?>"></script>
     <script src="<?= sources("fontawesome/js/all.js") ?>"></script>

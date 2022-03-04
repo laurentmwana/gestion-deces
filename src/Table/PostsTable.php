@@ -30,9 +30,11 @@ class PostsTable extends Table {
     public function findPaginatedPost ($perPage = 9): Pagination {
         return new Pagination(
             $this->getQuery()->from($this->table)
-            ->innerJoin("INNER JOIN {$this->joinTable} ON {$this->joinTable}.id = {$this->table}.id")
+            ->innerJoin("JOIN {$this->joinTable} ON {$this->table}.categorie_id = {$this->joinTable}.id")
             ->by("$this->table.createdate", "DESC"),
-            $this->count("id"),
+            (int)($this->getQuery()
+            ->innerJoin("JOIN {$this->joinTable} ON {$this->table}.categorie_id = {$this->joinTable}.id")
+            ->from($this->table)->count("{$this->table}.id")->exec())[0],
             $this->class,
             $perPage
         );

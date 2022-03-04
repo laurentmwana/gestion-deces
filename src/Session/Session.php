@@ -7,9 +7,9 @@ class Session {
 
     private static $getSession;
 
-    private  $key;
+    private  $key = "flash";
 
-    private $defaultKey = "session";
+    private $defaultKey = "flash";
 
     /**
      * Une instance de session
@@ -27,21 +27,28 @@ class Session {
 
     public function __construct()
     {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
     }
 
     public function set (string $key, string $value): void {
-        if (!$this->key) {
-            $_SESSION[$this->defaultKey][$key] = $value;
-        } else {
-            $_SESSION[$this->key][$key] = $value;
-        }
+        $_SESSION[$this->key][$key] = $value;
     }
 
 
     public function get ($key): array {
-        $session = $_SESSION[$this->key];
-        return $session;
+        if ($this->has($key)) {
+                $values = $_SESSION[$this->key];
+                unset($_SESSION[$this->key]);
+                return $values;
+        }
+
+        return [];
+    }
+
+    public function has ($key): bool {
+        return isset($_SESSION[$this->key][$key]);
     }
 
     private function setKey ($key, $value): void {

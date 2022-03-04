@@ -23,5 +23,34 @@
         })
 
     })
+
+    const messages = document.querySelectorAll("div.message")
+    const disabledMessage = "message-disabled"
+    var interval = 15
+
+    if (messages !== null && messages !== undefined) {
+        messages.forEach((message) => {
+            message.querySelectorAll("button.message-cancel").forEach((b) => {
+                setInterval(() => {
+                    b.querySelectorAll("em.times").forEach((em) => {
+                        em.innerHTML = `${interval}`
+                        --interval
+                    })
+                    
+                }, 1000)
+                b.addEventListener("click", () => {
+                    message.classList.add(disabledMessage)
+                })
+            })
+
+            if (!message.classList.contains(disabledMessage)) {
+                setInterval(() => {
+                    
+                    message.classList.add(disabledMessage)
+                }, (interval * 1000))
+            }
+        })
+      
+    }
  
 })()

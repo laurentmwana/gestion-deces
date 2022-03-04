@@ -78,7 +78,7 @@ class Pagination {
         $this->intervall = $intervall;
         $this->limited = $limited;
 
-        if ($this->currentPage > $this->getPages()) {
+        if ($this->currentPage >= $this->getPages()) {
             $this->currentPage = $this->getPages();
         }
     }
@@ -89,13 +89,20 @@ class Pagination {
      * @return array
      */
     public function getData (): array {
-    
+
+   
         $offset = $this->perPage * ($this->currentPage - 1);
+        $offset = $offset < 0 ? 0 : $offset;
         return $this->query
         ->offset($offset)->limit($this->perPage)
         ->exec($this->classMapping);
     }
 
+    /**
+     * Nombres de total de pages 
+     *
+     * @return integer
+     */
     public function getPages (): int {
         return ceil($this->count / $this->perPage);
     }
