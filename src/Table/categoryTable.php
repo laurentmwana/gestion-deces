@@ -21,6 +21,14 @@ class CategoryTable extends Table {
      */
     protected $class = Category::class;
 
+    private $fields = [
+        "categorie",
+        "type",
+        "content",
+        "createdate",
+        "updatedate"
+    ];
+
     /**
      *
      * @param integer $perPage
@@ -35,6 +43,11 @@ class CategoryTable extends Table {
             $this->class,
             $perPage
         );
+    }
+    
+    public function update (Category $categorie): ?bool {
+
+        $this->pdo->prepare("UPDATE {$this->table} SET ");
     }
 
 }

@@ -49,10 +49,11 @@
     --rem3: 3rem;
 
     /* font familly */
+    --confortaa: Confortaa, sans-serif;
     --licorice: licorice, sans-serif;
     --lobster: lobster, sans-serif;
     --arial: Arial, sans-serif;
-    --confortaa: confortaa, sans-serif;
+    --oxygen: oxygen, sans-serif;
 
     /* font-weight */
     --f-weight100: 100;
@@ -583,8 +584,17 @@ h5 {
     font-family: var(--confortaa);
 }
 
-
 /* forms */
+
+.forms .error {
+    display: block;
+    width: var(--p100);
+    font-size: 14px;
+    color: var(--red);
+    font-family: Roboto Light;
+    margin: 5px 0;
+    padding: 5px;
+} 
 
 .group-input,
 .form-check {
@@ -592,7 +602,7 @@ h5 {
     width: 100%;
     margin-bottom: 1rem;
     transition: all .5s;
-    font-family: var(--confortaa);
+    font-family: var(--oxygen);
     position: relative;
 }
 
@@ -603,68 +613,69 @@ h5 {
 .field {
     border: none;
     outline: none;
-    border: solid 1px var(--dark-light);
-    width: 100%;
-    border-radius: 4px;
-    background: rgba(255, 255, 255, .2);
-    box-shadow: 0 0 3px var(--dark-light) ;
+    padding: 10px var(--rem);
+    width: var(--p100);
+    background: rgba(255, 255, 255, 0.055);
+    box-shadow: 0 0 4px  rgba(202, 210, 212, 0.486), 
+    0 0 4px  rgba(246, 246, 246, 0.274),
+    0 0 4px  rgba(157, 158, 158, 0.767);
     font-size: var(--rem);
-    color: rgba(0, 0, 0, .60);
-    padding-left: 15px;
-    padding-right: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
     font-family: inherit;
-    border-bottom-width: 2px;
+    color: var(--dark-light);
+    border-radius: 5px;
+    transition: border-bottom .40s ease-in-out;
+    border-bottom: solid 2px transparent;
 }
 
+.field:focus {
+    border-bottom-color: var(--primary);
+}
 
 
 .forms .field::placeholder {
     opacity: 1;
     color: var(--dark-light);
     font-size: var(--rem);
-    font-family: var(--confortaa);
+    font-family: var(--oxygen);
 }
 
-.field:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 3px var(--primary);
+
+.field:focus ~ .field-label {
+    color: var(--primary) !important;
 }
 
 
 .forms .field-label {
-    position: absolute;
-    left: 20px;
-    top: -10px;
+    display: block;
+    margin-bottom: 5px;
     color: var(--dark-light);
-    padding: 0 15px;
+    font-size: 15px;
     background: rgba(255, 255, 255);
-    transform: scale(.81);
 }
 
 
 .b-primary {
-    color: var(--light) ;
-    background: var(--primary);
     border: 2px solid var(--primary-light);
-    box-shadow: 0 0 2px var(--primary-light);
-    opacity: .75;
 }
 
 .b-primary:hover {
-    opacity: 1;
+    color: var(--light) ;
+    background: var(--primary);
+    box-shadow: 0 0 35px 2px var(--primary-light);
 }
 
 .b {
-    padding: 10px;
-    font-family: var(--confortaa);
+    background: inherit;
+    padding: 5px;
+    font-family: var(--oxygen);
     font-weight: 400;
+    color: var(--dark);
     cursor: pointer;
     border-radius: 4px;
-    font-size: var(--rem);
+    font-size: 15px;
     transition: all .4s;
     text-align: center;
+    font-weight: 500;
 }
 /* end forms */
 
@@ -780,6 +791,7 @@ h5 {
     border-radius: 2.5px;
     transition: all 1s;
     font-size: var(--rem);
+    cursor: pointer;
 }
 
 .table tbody .table-action .table-btn:hover {

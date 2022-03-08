@@ -26,7 +26,7 @@
 
     const messages = document.querySelectorAll("div.message")
     const disabledMessage = "message-disabled"
-    var interval = 15
+    var interval = 8
 
     if (messages !== null && messages !== undefined) {
         messages.forEach((message) => {

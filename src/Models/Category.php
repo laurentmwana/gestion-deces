@@ -6,17 +6,17 @@ use DateTime;
 
 class Category {
 
-    private int $id;
+    private $id;
 
-    private string $content;
+    private  $content;
 
-    private string $type;
+    private  $type;
 
-    private string $categorie;
+    private  $categorie;
 
-    private string $createdate;
+    private  $createdate;
 
-    private string $updatedate;
+    private  $updatedate;
 
     /**
      * l'id
@@ -44,11 +44,11 @@ class Category {
     }
     
 
-    public function getType (): string {
+    public function getType (): ?string {
         return $this->type;
     }
 
-    public function getCategorie (): string {
+    public function getCategorie (): ?string {
         return $this->categorie;
     }
 
@@ -66,6 +66,10 @@ class Category {
         }
 
         return null;
+    }
+
+    public function setCreateDate($createdate): void {
+        $this->createdate = $createdate;
     }
 
     public function getUpdateDate (): ?DateTime {

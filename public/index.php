@@ -2,6 +2,7 @@
 
 use App\App;
 use App\Renderer;
+use App\Validator\Validator;
 use Modules\AdminModule;
 use Modules\BlogModule;
 use Modules\CategorieModule;
@@ -46,6 +47,11 @@ HTML;
             <li class="item"><a href="{$url}" class="link">{$key}</a></li>
 HTML;
 }
+
+$data = [
+    "errors" => "s",
+    'name' => ''
+];
 
 $renderer = new Renderer(VIEWS);
 $app = (new App([
